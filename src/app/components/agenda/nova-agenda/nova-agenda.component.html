@@ -1,0 +1,34 @@
+<div class="container mt-5">
+  <h2 class="mb-3">Gerar Agenda com IA</h2>
+
+  <div class="mb-3">
+    <label for="prompt" class="form-label">Digite o prompt:</label>
+    <textarea
+      id="prompt"
+      class="form-control"
+      [(ngModel)]="prompt"
+      rows="4"
+      placeholder="Ex: Planeje minha semana com foco em produtividade e bem-estar"
+    ></textarea>
+  </div>
+
+  <button class="btn btn-primary" (click)="gerarAgenda()" [disabled]="loading">
+    {{ loading ? 'Gerando...' : 'Gerar Agenda' }}
+  </button>
+
+  <div *ngIf="error" class="alert alert-danger mt-3">
+    {{ error }}
+  </div>
+
+  <div *ngIf="agendas.length > 0" class="mt-4">
+    <h4>Agendas Geradas:</h4>
+    <ul class="list-group">
+      <li *ngFor="let agenda of agendas" class="list-group-item">
+        <strong>{{ agenda.title }}</strong><br />
+        {{ agenda.description }}<br />
+        <small>{{ agenda.date | date:'short' }}</small>
+      </li>
+    </ul>
+  </div>
+</div>
+
