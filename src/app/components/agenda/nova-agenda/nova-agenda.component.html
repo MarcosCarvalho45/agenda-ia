@@ -3,13 +3,8 @@
 
   <div class="mb-3">
     <label for="prompt" class="form-label">Digite o prompt:</label>
-    <textarea
-      id="prompt"
-      class="form-control"
-      [(ngModel)]="prompt"
-      rows="4"
-      placeholder="Ex: Planeje minha semana com foco em produtividade e bem-estar"
-    ></textarea>
+    <textarea id="prompt" class="form-control" [(ngModel)]="prompt" rows="4"
+      placeholder="Ex: Planeje minha semana com foco em produtividade e bem-estar"></textarea>
   </div>
 
   <button class="btn btn-primary" (click)="gerarAgenda()" [disabled]="loading">
@@ -22,13 +17,22 @@
 
   <div *ngIf="agendas.length > 0" class="mt-4">
     <h4>Agendas Geradas:</h4>
-    <ul class="list-group">
-      <li *ngFor="let agenda of agendas" class="list-group-item">
-        <strong>{{ agenda.title }}</strong><br />
-        {{ agenda.description }}<br />
-        <small>{{ agenda.date | date:'short' }}</small>
-      </li>
-    </ul>
+    <div class="row">
+      <div *ngFor="let agenda of agendas" class="col-md-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ agenda.title }}</h5>
+            <p class="card-text">{{ agenda.description }}</p>
+            <p class="card-text">
+              <small class="text-muted">
+                {{ agenda.date | date:'fullDate' }} às {{ agenda.date | date:'shortTime' }}
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 
+
+</div>

@@ -13,10 +13,10 @@ export class AgendaService {
 
   constructor(private http: HttpClient) { }
 
-  createAgenda(agenda: Agenda): Observable<Agenda> {
-    return this.http.post<Agenda>(
-      `${this.apiUrl}/agenda/generate`,
-      agenda
+  createAgenda(prompt: string): Observable<{ agendas: Agenda[] }> {
+    return this.http.post<{ agendas: Agenda[] }>(
+      `${this.apiUrl}agenda/generate`,
+      { prompt }
     );
   }
 

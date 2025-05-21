@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AgendaService } from '../../../services/agenda/agenda.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Agenda } from '../../../models/agenda.model';
 
 @Component({
   selector: 'app-nova-agenda',
@@ -16,26 +17,31 @@ export class NovaAgendaComponent {
   loading: boolean = false;
   error: string | null = null;
 
-  constructor(private agendaService: AgendaService) {}
+  constructor(private agendaService: AgendaService) { }
 
-  
   gerarAgenda() {
     this.error = null;
     this.loading = true;
 
-    this.agendaService.gerarAgenda(this.prompt).subscribe({
-      next: (res: { agendas: any[]; }) => {
-        this.agendas = res.agendas;
+    this.agendaService.createAgenda(this.prompt).subscribe({
+      next: (res: { agendas: Agenda[] } | Agenda[]) => {
+        // Se vier como objeto com 'agendas'
+        if ('agendas' in res) {
+          this.agendas = res.agendas;
+        } else {
+          // Se vier diretamente como array
+          this.agendas = res;
+        }
         this.loading = false;
       },
-      error: (err: { error: { message: string; }; }) => {
-        this.error = err.error?.message || 'Erro ao gerar agenda';
+      error: (err) => {
+        console.error('Erro ao criar agenda:', err);
         this.loading = false;
       }
     });
   }
 
-  
+
   formatDateTime(data: string, hora: string): string {
     // Junta data + hora num Date válido
     const dt = new Date(`${data}T${hora}:00`);
