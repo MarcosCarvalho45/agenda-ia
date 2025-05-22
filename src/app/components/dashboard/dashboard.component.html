@@ -1,1 +1,43 @@
-<p>dashboard works!</p>
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold">Minhas Agendas</h2>
+      <p class="text-muted">Gerencie suas agendas personalizadas</p>
+    </div>
+    <button class="btn btn-primary" (click)="criarNovaAgenda()">
+      <i class="bi bi-plus-circle me-2"></i>
+      Criar Nova Agenda
+    </button>
+  </div>
+
+  <div class="row g-3">
+    <!-- Card Agenda -->
+    <div class="col-md-4" *ngFor="let agenda of agendas">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title fw-bold">{{ agenda.title }}</h5>
+          <p class="card-subtitle text-muted mb-2">
+            Criada em {{ agenda.createdAt | date: 'dd/MM/yyyy' }}
+          </p>
+          <p class="text-muted mb-0">Clique para visualizar detalhes</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Nova Agenda -->
+    <div class="col-md-4">
+      <div
+        class="card h-100 border-dashed text-center d-flex align-items-center justify-content-center"
+        style="border: 2px dashed #ccc; cursor: pointer;"
+        (click)="criarNovaAgenda()"
+      >
+        <div class="card-body">
+          <i class="bi bi-plus-circle" style="font-size: 2rem;"></i>
+          <h5 class="mt-2">Nova Agenda</h5>
+          <p class="text-muted">Clique para criar uma nova agenda personalizada</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { catchError, Observable, retry, throwError } from 'rxjs';
 import { Agenda } from '../../models/agenda.model';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AgendaService {
 
   private apiUrl = environment.apiUrl;
@@ -20,9 +21,19 @@ export class AgendaService {
     );
   }
 
-  getAgendasByUser(userId: string): Observable<Agenda[]> {
-    return this.http.get<Agenda[]>(
-      `${this.apiUrl}/user/${userId}`
-    );
+  getAgendas(): Observable<Agenda[]> {
+    return this.http
+      .get<Agenda[]>(`${this.apiUrl}agenda/`)
+      .pipe(
+        retry(2),
+        catchError(this.handleError<Agenda[]>())
+      );
+  }
+
+  private handleError<T>() {
+    return (error: HttpErrorResponse): Observable<T> => {
+      console.error('Ocorreu um erro:', error);
+      return throwError(() => error);
+    };
   }
 }

@@ -22,12 +22,17 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
 
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+      // Executando no SSR — não pode usar localStorage
+      return this.router.parseUrl('/login');
+    }
+
     const token = this.authService.getToken();
     const subscription = localStorage.getItem('subscription') as SubscriptionType | null;
     const subscriptionStatus = localStorage.getItem('subscriptionStatus') as SubscriptionStatus | null;
     const subscriptionStartStr = localStorage.getItem('subscriptionStart');
 
-      // Se não tem token ou status inativo, manda pro login
+    // Se não tem token ou status inativo, manda pro login
     if (!token || subscriptionStatus !== 'active') {
       return this.router.parseUrl('/login');
     }
