@@ -14,19 +14,22 @@ export class AgendaService {
 
   constructor(private http: HttpClient) { }
 
-  createAgenda(prompt: string): Observable<{ agendas: Agenda[] }> {
-    return this.http.post<{ agendas: Agenda[] }>(
+  createAgenda(prompt: string): Observable<{ agenda: Agenda }> {
+    return this.http.post<{ agenda: Agenda }>(
       `${this.apiUrl}agenda/generate`,
       { prompt }
+    ).pipe(
+      catchError(this.handleError<{ agenda: Agenda }>())
     );
   }
 
-  getAgendas(): Observable<Agenda[]> {
+
+  getAgendas(): Observable<{ agenda: Agenda }> {
     return this.http
-      .get<Agenda[]>(`${this.apiUrl}agenda/`)
+      .get<{ agenda: Agenda }>(`${this.apiUrl}agenda/`)
       .pipe(
         retry(2),
-        catchError(this.handleError<Agenda[]>())
+        catchError(this.handleError<{ agenda: Agenda }>())
       );
   }
 

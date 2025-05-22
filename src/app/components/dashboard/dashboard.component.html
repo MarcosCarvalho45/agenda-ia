@@ -12,12 +12,12 @@
 
   <div class="row g-3">
     <!-- Card Agenda -->
-    <div class="col-md-4" *ngFor="let agenda of agendas">
+    <div class="col-md-4" *ngFor="let agendaGerada of agendas">
       <div class="card h-100 shadow-sm border-0">
         <div class="card-body">
-          <h5 class="card-title fw-bold">{{ agenda.title }}</h5>
+          <h5 class="card-title fw-bold">{{ agendaGerada.title }}</h5>
           <p class="card-subtitle text-muted mb-2">
-            Criada em {{ agenda.createdAt | date: 'dd/MM/yyyy' }}
+            Criada em {{ agendaGerada.createdAt | date: 'dd/MM/yyyy' }}
           </p>
           <p class="text-muted mb-0">Clique para visualizar detalhes</p>
         </div>

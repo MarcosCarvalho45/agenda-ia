@@ -11,28 +11,29 @@ import { AgendaService } from '../../services/agenda/agenda.service';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
 
   agendas: Agenda[] = [];
+  agendaGerada!: Agenda;
 
   constructor(private router: Router, private agendaService: AgendaService) { }
 
   ngOnInit(): void {
     this.carregarAgendas();
-  } 
+  }
 
   criarNovaAgenda() {
     this.router.navigate(['/agenda/nova']);
   }
 
-  carregarAgendas(){
-       this.agendaService.getAgendas().subscribe({
+  carregarAgendas() {
+    this.agendaService.getAgendas().subscribe({
       next: (data) => {
-        console.log('Agendas recebidas:', data);
-        this.agendas = data;
+        console.log('Agenda recebida:', data.agenda);
+        this.agendaGerada = data.agenda;
       },
       error: (err) => {
-        console.error('Erro ao carregar agendas:', err);
+        console.error('Erro ao carregar agenda:', err);
       }
     });
   }

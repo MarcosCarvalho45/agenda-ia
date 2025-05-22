@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   errorMsg = '';
+  successMsg = '';
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
 
@@ -35,7 +36,6 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
   }
-
 
   loginUser() {
     if (this.loginForm.invalid) {
@@ -65,8 +65,11 @@ export class LoginComponent implements OnInit {
     );
   }
 
-
   onSubmit() {
     this.loginUser();
+  }
+
+  criarConta(){
+    this.router.navigate(['/register']);
   }
 }

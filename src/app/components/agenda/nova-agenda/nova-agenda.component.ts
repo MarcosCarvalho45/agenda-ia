@@ -16,31 +16,31 @@ export class NovaAgendaComponent {
   agendas: any[] = [];
   loading: boolean = false;
   error: string | null = null;
+  agendaGerada: any = null;
 
   constructor(private agendaService: AgendaService) { }
 
   gerarAgenda() {
-    this.error = null;
     this.loading = true;
+    this.error = '';
+    this.agendaGerada = null;
 
     this.agendaService.createAgenda(this.prompt).subscribe({
-      next: (res: { agendas: Agenda[] } | Agenda[]) => {
-        // Se vier como objeto com 'agendas'
-        if ('agendas' in res) {
-          this.agendas = res.agendas;
+      next: (res) => {
+        console.log('Resposta da IA:', res);
+        if (res && res.agenda) {
+          this.agendaGerada = res.agenda;
         } else {
-          // Se vier diretamente como array
-          this.agendas = res;
+          this.error = 'Nenhuma agenda foi gerada.';
         }
-        this.loading = false;
       },
       error: (err) => {
-        console.error('Erro ao criar agenda:', err);
+        this.error = 'Erro ao gerar agenda. Tente novamente.';
+        console.error(err);
         this.loading = false;
       }
     });
   }
-
 
   formatDateTime(data: string, hora: string): string {
     // Junta data + hora num Date válido
