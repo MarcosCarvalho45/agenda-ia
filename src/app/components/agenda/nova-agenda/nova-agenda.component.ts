@@ -30,6 +30,7 @@ export class NovaAgendaComponent {
         console.log('Resposta da IA:', res);
         if (res && res.agenda) {
           this.agendaGerada = res.agenda;
+          this.loading = false;
         } else {
           this.error = 'Nenhuma agenda foi gerada.';
         }

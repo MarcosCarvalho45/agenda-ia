@@ -6,6 +6,7 @@ import { NovaAgendaComponent } from './components/agenda/nova-agenda/nova-agenda
 import { VisualizacaoAgendaComponent } from './components/agenda/visualizacao-agenda/visualizacao-agenda.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { AuthGuard } from './guards/auth.guard';
+import { UserComponent } from './components/user/user.component';
 
 export const routes: Routes = [
      { path: 'login', component: LoginComponent },
@@ -14,6 +15,7 @@ export const routes: Routes = [
      { path: 'agenda/nova', component: NovaAgendaComponent, canActivate: [AuthGuard] },
      { path: 'agenda/:id', component: VisualizacaoAgendaComponent, canActivate: [AuthGuard] },
      { path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
+     { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
      { path: '', redirectTo: 'login', pathMatch: 'full' },
      { path: '**', redirectTo: 'login' },
 ];

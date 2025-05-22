@@ -29,13 +29,14 @@ export class DashboardComponent implements OnInit {
   carregarAgendas() {
     this.agendaService.getAgendas().subscribe({
       next: (data) => {
-        console.log('Agenda recebida:', data.agenda);
-        this.agendaGerada = data.agenda;
+        console.log('Agendas recebidas:', data.agendas);
+        this.agendas = data.agendas; // Corrigido aqui
       },
       error: (err) => {
-        console.error('Erro ao carregar agenda:', err);
+        console.error('Erro ao carregar agendas:', err);
       }
     });
   }
+
 
 }

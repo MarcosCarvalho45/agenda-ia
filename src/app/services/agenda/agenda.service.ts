@@ -23,13 +23,12 @@ export class AgendaService {
     );
   }
 
-
-  getAgendas(): Observable<{ agenda: Agenda }> {
+  getAgendas(): Observable<{ agendas: Agenda[]; message: string }> {
     return this.http
-      .get<{ agenda: Agenda }>(`${this.apiUrl}agenda/`)
+      .get<{ agendas: Agenda[]; message: string }>(`${this.apiUrl}agenda/`)
       .pipe(
         retry(2),
-        catchError(this.handleError<{ agenda: Agenda }>())
+        catchError(this.handleError<{ agendas: Agenda[]; message: string }>())
       );
   }
 
