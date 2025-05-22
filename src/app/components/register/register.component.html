@@ -1,1 +1,48 @@
-<p>register works!</p>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card shadow p-4 rounded-2">
+          <div class="text-center mb-4">
+            <div class="d-flex align-items-center justify-content-center mb-3">
+              <div class="bg-primary text-white rounded-2 p-2 me-2 shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                     class="bi bi-p" viewBox="0 0 16 16">
+                  <path d="M7.146 6.354L4.808 8.691V6.002H3.318V10.39h1.49v-2.68l2.338 2.337h1.41V6.002H7.146z" />
+                </svg>
+              </div>
+              <h1 class="fw-bold mb-0 text-primary">Mk Planner AI</h1>
+            </div>
+            <h2 class="mt-3 fw-bold text-dark">Crie sua conta</h2>
+            <p class="text-primary" (click)="criarNovaAgenda()"> <strong>Ou entre com uma conta existente</strong></p>
+          </div>
+
+          <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control rounded-2" id="nome" placeholder="Seu nome completo" formControlName="name">
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control rounded-2" id="email" placeholder="seu.email@exemplo.com" formControlName="email">
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">WhatsApp</label>
+            <input type="text" class="form-control rounded-2" id="phone" placeholder="(xx) x xxxx-xxxx" formControlName="phone">
+          </div>
+          <div class="mb-4">
+            <label for="senha" class="form-label">Senha</label>
+            <input type="password" class="form-control rounded-2" id="senha" placeholder="Crie uma senha segura" formControlName="password">
+          </div>
+
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg rounded-2 shadow-sm">Criar conta</button>
+          </div>
+
+          <!-- mensagens de feedback -->
+          <p class="text-danger mt-2" *ngIf="errorMsg">{{ errorMsg }}</p>
+          <p class="text-success mt-2" *ngIf="successMsg">{{ successMsg }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

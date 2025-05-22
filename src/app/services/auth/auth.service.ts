@@ -25,6 +25,16 @@ export class AuthService {
     );
   }
 
+  register(data: {
+    name: string;
+    email: string;
+    phone: string;
+    password: string;
+    tenantId: string;
+  }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}auth/register`, data);
+  }
+
   logout(): void {
     localStorage.removeItem('token');
     // ou outras ações de logout que queira
