@@ -1,26 +1,30 @@
-<div class="d-flex flex-column p-3 bg-white shadow-sm" style="width: 260px; height: 100vh; border-radius: 0 12px 12px 0;">
+<div class="d-flex flex-column p-4 bg-white shadow-sm "
+  style="width: 260px; height: 100vh; border-radius: 0 12px 12px 0; position: fixed; top: 0; left: 0; z-index: 1040;">
   <!-- Logo -->
-  <a href="#" class="d-flex align-items-center mb-4 text-decoration-none">
-    <img src="caminho/do/icone.png" alt="AI Agenda" style="width: 32px; height: 32px;" class="me-2">
-    <span class="fw-bold fs-5 text-primary">AI Agenda</span>
+  <a class="d-flex align-items-center mb-4 text-decoration-none">
+    <img [src]="logoMk" alt="Logo" class="logo-sm me-2 rounded">
+    <span class="fw-bold fs-5 text-gradient">Mk Planner AI</span>
   </a>
 
   <!-- Menu Navegação -->
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
-      <a href="#" class="nav-link active d-flex align-items-center">
+      <a [routerLink]="['/dashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link d-flex align-items-center mb-2" style="cursor: pointer;">
         <i class="bi bi-calendar-event me-2"></i>
         Dashboard
       </a>
     </li>
-    <li>
-      <a href="#" class="nav-link text-dark d-flex align-items-center">
+    <li class="nav-item">
+      <a [routerLink]="['/agenda/nova']" routerLinkActive="active" class="nav-link d-flex align-items-center mb-2"
+        style="cursor: pointer;">
         <i class="bi bi-plus-lg me-2"></i>
         Criar Agenda
       </a>
     </li>
-    <li>
-      <a href="#" class="nav-link text-dark d-flex align-items-center">
+    <li class="nav-item">
+      <a [routerLink]="['/subscription']" routerLinkActive="active" class="nav-link d-flex align-items-center mb-2"
+        style="cursor: pointer;">
         <i class="bi bi-card-list me-2"></i>
         Planos
       </a>
@@ -40,4 +44,3 @@
     </div>
   </div>
 </div>
-

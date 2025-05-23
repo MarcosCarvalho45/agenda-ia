@@ -16,6 +16,7 @@ export const routes: Routes = [
      { path: 'agenda/:id', component: VisualizacaoAgendaComponent, canActivate: [AuthGuard] },
      { path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
      { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
+     { path: 'viwer', component: VisualizacaoAgendaComponent, canActivate: [AuthGuard] },
      { path: '', redirectTo: 'login', pathMatch: 'full' },
      { path: '**', redirectTo: 'login' },
 ];

@@ -1,10 +1,9 @@
 <div class="d-flex">
-  <!-- Sidebar -->
-  <app-sidebar></app-sidebar>
+  <!-- Menu lateral -->
+  <app-sidebar *ngIf="showSidebar"></app-sidebar>
 
   <!-- Conteúdo principal -->
-  <div class="flex-grow-1 p-4" style="background-color: #f8fafc; min-height: 100vh;">
+  <div class="flex-grow-1">
     <router-outlet></router-outlet>
   </div>
 </div>
-
