@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
-import { IUser } from '../../models/auth.model'
+import { IUser } from '../../models/auth.model';
 import { CommonModule } from '@angular/common';
-
 
 @Component({
   standalone: true,
@@ -24,7 +23,11 @@ export class LoginComponent implements OnInit {
   errorMsg = '';
   successMsg = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.createFormLoginUser();
@@ -45,31 +48,31 @@ export class LoginComponent implements OnInit {
 
     const loginData: IUser = this.loginForm.value;
 
-    this.authService.login(loginData.email, loginData.password).subscribe(
-      (response: any) => {
+    this.authService.login(loginData.email, loginData.password).subscribe({
+      next: (response: any) => {
         console.log('Usuário logado com sucesso:', response);
-        // Redireciona para o dashboard após o login
-        this.router.navigate(['/dashboard']);
 
-        // Salva dados no localStorage
+        // Salva dados no localStorage corretamente, pegando do objeto user:
         localStorage.setItem('token', response.token);
-        localStorage.setItem('subscription', response.subscription);
-        localStorage.setItem('subscriptionStatus', response.subscriptionStatus);
-        localStorage.setItem('tenantId', response.tenantId);
-        localStorage.setItem('subscriptionStart', new Date().toISOString());
+        localStorage.setItem('subscription', response.user.subscription || 'free');
+        localStorage.setItem('subscriptionStatus', response.user.subscriptionStatus || 'inactive');
+        localStorage.setItem('tenantId', response.user.tenantId || '');
+        localStorage.setItem('subscriptionStart', response.user.subscriptionStart || new Date().toISOString());
+
+        // Agora redireciona para o dashboard
+        this.router.navigate(['/dashboard']);
       },
-      (error) => {
+      error: (error) => {
         console.error('Erro ao logar:', error);
         this.errorMsg = 'Erro ao realizar o login. Tente novamente.';
       }
-    );
+    });
   }
-
   onSubmit() {
     this.loginUser();
   }
 
-  criarConta(){
+  criarConta() {
     this.router.navigate(['/register']);
   }
 }

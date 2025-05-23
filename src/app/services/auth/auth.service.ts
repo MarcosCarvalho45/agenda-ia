@@ -2,27 +2,27 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment'; // ajuste o caminho conforme sua estrutura
 import { Observable } from 'rxjs';
+import { User } from '../../models/auth.model';
 
 export interface LoginResponse {
   token: string;
-  // adicione outros campos que sua API retorne
+  subscription: string;
+  subscriptionStatus: string;
+  tenantId: string;
+  // Não inclui subscriptionStart porque você gera localmente
 }
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
-  login(email: string, password: string): Observable<LoginResponse & { subscription: string, subscriptionStatus: string, subscriptionStart: string }> {
+  login(email: string, password: string): Observable<LoginResponse> {
     const payload = { email, password };
-    return this.http.post<LoginResponse & { subscription: string, subscriptionStatus: string, subscriptionStart: string }>(
-      `${this.apiUrl}auth/login`,
-      payload
-    );
+    return this.http.post<LoginResponse>(`${this.apiUrl}auth/login`, payload);
   }
 
   register(data: {
@@ -37,7 +37,11 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
-    // ou outras ações de logout que queira
+    // remova outros dados se quiser
+    localStorage.removeItem('subscription');
+    localStorage.removeItem('subscriptionStatus');
+    localStorage.removeItem('tenantId');
+    localStorage.removeItem('subscriptionStart');
   }
 
   setToken(token: string): void {

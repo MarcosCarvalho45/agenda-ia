@@ -27,4 +27,8 @@ export class SidebarComponent {
     this.router.navigate(['/subscription']);
   }
 
+    goToProfile() {
+    this.router.navigate(['/user']);
+  }
+
 }

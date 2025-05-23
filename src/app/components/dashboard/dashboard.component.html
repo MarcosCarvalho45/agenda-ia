@@ -1,43 +1,71 @@
-<div class="container mt-5">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-      <h2 class="fw-bold">Minhas Agendas</h2>
-      <p class="text-muted">Gerencie suas agendas personalizadas</p>
+<div class="container mt-4">
+  <!-- Título e descrição -->
+  <div class="mb-4">
+    <h2 class="fw-bold">Dashboard</h2>
+    <p class="text-muted">Gerencie suas agendas inteligentes e acompanhe seu progresso</p>
+  </div>
+
+  <!-- Cards resumo -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm text-center p-3">
+        <h6 class="text-primary fw-bold">Agendas Ativas</h6>
+        <h3 class="fw-bold">{{ agendaGerada.title }}</h3>
+      </div>
     </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm text-center p-3" style="background-color: #e6fff0;">
+        <h6 class="text-success fw-bold">Concluídas</h6>
+        <h3 class="fw-bold text-success">{{ agendaGerada.title }}</h3>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm text-center p-3" style="background-color: #f5ebff;">
+        <h6 class="text-purple fw-bold">Total de Agendas</h6>
+        <h3 class="fw-bold text-purple">{{ agendas.length }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botão Nova Agenda -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold">Suas Agendas</h4>
     <button class="btn btn-primary" (click)="criarNovaAgenda()">
-      <i class="bi bi-plus-circle me-2"></i>
-      Criar Nova Agenda
+      <i class="bi bi-plus"></i> Criar Nova Agenda
     </button>
   </div>
 
+  <!-- Lista de Agendas -->
   <div class="row g-3">
-    <!-- Card Agenda -->
-    <div class="col-md-4" *ngFor="let agendaGerada of agendas">
-      <div class="card h-100 shadow-sm border-0">
+    <div class="col-md-6" *ngFor="let agenda of agendas">
+      <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
-          <h5 class="card-title fw-bold">{{ agendaGerada.title }}</h5>
-          <p class="card-subtitle text-muted mb-2">
-            Criada em {{ agendaGerada.createdAt | date: 'dd/MM/yyyy' }}
-          </p>
-          <p class="text-muted mb-0">Clique para visualizar detalhes</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card Nova Agenda -->
-    <div class="col-md-4">
-      <div
-        class="card h-100 border-dashed text-center d-flex align-items-center justify-content-center"
-        style="border: 2px dashed #ccc; cursor: pointer;"
-        (click)="criarNovaAgenda()"
-      >
-        <div class="card-body">
-          <i class="bi bi-plus-circle" style="font-size: 2rem;"></i>
-          <h5 class="mt-2">Nova Agenda</h5>
-          <p class="text-muted">Clique para criar uma nova agenda personalizada</p>
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <h5 class="fw-bold">{{ agenda.title }}</h5>
+              <p class="text-muted mb-1">
+                <i class="bi bi-calendar-event me-1"></i>
+                {{ agenda.createdAt| date: 'dd-MM-yyyy' }} - {{ agenda.updatedAt| date: 'dd-MM-yyyy' }}
+              </p>
+              <p class="mb-2">{{ agenda.description }}</p>
+              <div class="mb-2">
+                <span *ngFor="let tag of agenda.description" class="badge bg-light text-dark me-1">{{ tag }}</span>
+              </div>
+            </div>
+            <span class="badge" [ngClass]="agenda.title">
+              {{ agenda.title }}
+            </span>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-dark btn-sm">
+              <i class="bi bi-eye"></i> Ver
+            </button>
+            <button class="btn btn-outline-danger btn-sm">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-

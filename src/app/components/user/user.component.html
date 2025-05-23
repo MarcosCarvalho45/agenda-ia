@@ -8,12 +8,13 @@
       <div class="card shadow-sm border-0 mb-4">
         <div class="card-body text-center">
           <div class="mb-3">
-            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center" style="width: 64px; height: 64px; font-size: 30px;">
+            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+              style="width: 64px; height: 64px; font-size: 30px;">
               <i class="bi bi-person"></i>
             </div>
           </div>
-          <h5 class="fw-bold mb-1">Usuário</h5>
-          <p class="text-muted small">marcosantcarvalho99gmail.com</p>
+          <h5 class="fw-bold mb-1">{{ user?.name || 'Usuário' }}</h5>
+          <p class="text-muted small">{{ user?.email }}</p>
 
           <hr>
 
@@ -25,11 +26,11 @@
             </div>
             <div class="d-flex justify-content-between">
               <span class="text-muted">Plano atual</span>
-              <span class="fw-bold">Gratuito</span>
+              <span class="fw-bold">{{ user?.subscription || 'Gratuito' }}</span>
             </div>
             <div class="d-flex justify-content-between mb-3">
               <span class="text-muted">Membro desde</span>
-              <span class="fw-bold">Mai 2025</span>
+              <span class="fw-bold">{{ user?.subscriptionStart | date: 'MMM yyyy' }}</span>
             </div>
 
             <p class="mb-1"><strong>Integrações</strong></p>
@@ -50,26 +51,26 @@
           <h5 class="fw-bold mb-1">Informações pessoais</h5>
           <p class="text-muted">Atualize seus dados de contato e informações de perfil</p>
 
-          <form>
+          <form (ngSubmit)="salvarAlteracoes()" *ngIf="user">
             <div class="mb-3">
               <label class="form-label">Nome</label>
-              <input type="text" class="form-control" placeholder="Usuário">
+              <input type="text" class="form-control" [(ngModel)]="user.name" name="name" required>
             </div>
 
             <div class="mb-3">
               <label class="form-label">Email</label>
-              <input type="email" class="form-control" placeholder="marcosantcarvalho99@gmail.com">
+              <input type="email" class="form-control" [(ngModel)]="user.email" name="email" required>
             </div>
 
             <div class="mb-3">
               <label class="form-label">Telefone</label>
-              <input type="tel" class="form-control" placeholder="(XX) XXXXX-XXXX">
+              <input type="tel" class="form-control" [(ngModel)]="user.phone" name="phone" placeholder="(XX) XXXXX-XXXX">
               <small class="text-muted">Usado para notificações do WhatsApp</small>
             </div>
 
             <div class="mb-3">
               <label class="form-label">Bio</label>
-              <textarea class="form-control" rows="2" placeholder="Conte um pouco sobre você..."></textarea>
+              <textarea class="form-control" rows="2" [(ngModel)]="user.bio" name="bio" placeholder="Conte um pouco sobre você..."></textarea>
               <small class="text-muted">Máximo de 160 caracteres</small>
             </div>
 
@@ -77,9 +78,9 @@
               <button type="submit" class="btn btn-dark px-4">Salvar alterações</button>
             </div>
           </form>
+
         </div>
       </div>
     </div>
   </div>
 </div>
-
