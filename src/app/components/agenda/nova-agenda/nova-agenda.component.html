@@ -1,85 +1,102 @@
 <div class="container mt-5">
 
-  <h5 class="text-center mb-4 text-muted">
-    Descreva o que você precisa e deixe nossa IA criar a agenda perfeita para seus objetivos
-  </h5>
+  <!-- PROMPT - fica no topo -->
+  <div class="card p-4 shadow-sm border-0 rounded-4 mb-4">
+    <h5 class="fw-bold mb-3">
+      <i class="bi bi-stars text-primary me-2"></i> Descreva o que você precisa
+    </h5>
+    <textarea id="prompt" class="form-control mb-3 rounded-3" [(ngModel)]="prompt" rows="5"
+      placeholder="Ex: Preciso de uma agenda para próxima semana que equilibre trabalho em meu projeto final com exercícios físicos. Sou mais produtivo pela manhã e preciso de pausas frequentes..."></textarea>
 
-  <div class="row g-4">
-    <!-- COLUNA 1: Descrever -->
-    <div class="col-md-6">
-      <div class="card p-4 shadow-sm border-0 rounded-4">
-        <h5 class="fw-bold mb-3">
-          <i class="bi bi-stars text-primary me-2"></i> Descreva o que você precisa
-        </h5>
-        <textarea id="prompt" class="form-control mb-3 rounded-3" [(ngModel)]="prompt" rows="5"
-          placeholder="Ex: Preciso de uma agenda para próxima semana que equilibre trabalho em meu projeto final com exercícios físicos. Sou mais produtivo pela manhã e preciso de pausas frequentes..."></textarea>
-        <button class="btn w-100 text-white fw-bold" [disabled]="loading" (click)="gerarAgenda()"
-          style="background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)">
-          <i class="bi bi-magic me-2"></i>
-          {{ loading ? 'Gerando...' : 'Gerar com IA' }}
-        </button>
+    <div class="d-flex align-items-center mt-3 mb-3">
+      <i class="bi bi-sliders me-2 text-secondary"></i>
+      <h6 class="m-0">Opções avançadas</h6>
+    </div>
+
+    <div class="row justify-content-center align-items-start g-4">
+      <!-- Campos avançados -->
+      <div class="col-md-5">
+        <div class="mb-3">
+          <label for="periodo" class="form-label">Período</label>
+          <input id="periodo" type="text" class="form-control" [(ngModel)]="periodo"
+            placeholder="Ex: 10 a 17 de dezembro">
+        </div>
+
+        <div class="mb-3">
+          <label for="preferenciaHorario" class="form-label">Preferência de horário</label>
+          <input id="preferenciaHorario" type="text" class="form-control" [(ngModel)]="preferenciaHorario"
+            placeholder="Ex: Manhã">
+        </div>
+
+        <div class="mb-3">
+          <label for="objetivoPrincipal" class="form-label">Objetivo principal</label>
+          <input id="objetivoPrincipal" type="text" class="form-control" [(ngModel)]="objetivoPrincipal"
+            placeholder="Ex: Estudar para concurso">
+        </div>
+      </div>
+
+      <!-- Caixa de dicas -->
+      <div class="col-md-5 offset-md-1">
+        <div class="card p-4 shadow-sm border-0 rounded-4 mb-4">
+          <h5 class="fw-bold mb-3">💡 Dicas para melhores resultados</h5>
+
+          <div class="mb-3">
+            <strong><i class="bi bi-calendar-week me-2 text-primary"></i> Seja específico com o período</strong><br>
+            <span class="text-muted small">Ex: 'Criar agenda para semana de 10 a 17 de dezembro focada em...'</span>
+          </div>
+
+          <div class="mb-3">
+            <strong><i class="bi bi-clock me-2 text-success"></i> Mencione suas preferências de horário</strong><br>
+            <span class="text-muted small">Ex: "Sou mais produtivo pela manhã"</span>
+          </div>
+
+          <div>
+            <strong><i class="bi bi-lightbulb-fill me-2 text-warning"></i> Inclua seus objetivos principais</strong><br>
+            <span class="text-muted small">Ex: "Quero estudar para concurso e ter tempo para academia"</span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- COLUNA 2: Resultado -->
-    <div class="col-md-6">
+    <button class="btn w-100 text-white fw-bold mt-4" [disabled]="loading" (click)="gerarAgenda()"
+      style="background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)">
+      <i class="bi bi-magic me-2"></i>
+      {{ loading ? 'Gerando...' : 'Gerar com IA' }}
+    </button>
+  </div>
+
+  <div class="row">
+    <!-- COLUNA DIREITA: Resultado (formato calendário) -->
+    <div class="col-md-12">
       <div class="card p-4 shadow-sm border-0 rounded-4 h-100">
         <h5 class="fw-bold mb-3">
-          <i class="bi bi-stars text-dark me-2"></i> Resultado
+          <i class="bi bi-calendar-event text-dark me-2"></i> Resultado da agenda
         </h5>
+
         <div *ngIf="!agendaGerada" class="text-muted border rounded p-3">
           Descreva o que você precisa e clique em “Gerar com IA” para criar sua agenda personalizada
         </div>
 
         <div *ngIf="agendaGerada">
-          <h5 class="fw-bold text-center my-3">{{ agendaGerada.nomeAgenda }}</h5>
+          <h5 class="fw-bold text-center mb-4">{{ agendaGerada.nomeAgenda }}</h5>
 
-          <div class="row">
-            <div *ngFor="let tarefa of agendaGerada.tarefas" class="col-md-12 mb-3">
-              <div class="bg-light p-3 rounded-3 shadow-sm">
-                <h6>{{ tarefa.titulo }}</h6>
-                <p class="mb-1">{{ tarefa.descricao }}</p>
-                <small class="text-muted">{{ tarefa.diaSemana }} - {{ tarefa.dia }} às {{ tarefa.hora }}</small>
+          <!-- Calendário simples -->
+          <div class="calendar-grid">
+            <div *ngFor="let dia of organizarEventosPorDia(agendaGerada.eventos)"
+              class="calendar-day p-3 border rounded mb-3">
+              <div class="day-header fw-bold mb-2">{{ dia.data | date: 'fullDate' }}</div>
+              <div *ngIf="dia.eventos.length === 0" class="text-muted">Nenhum evento</div>
+              <div *ngFor="let evento of dia.eventos" class="calendar-event mb-2 p-2 rounded bg-primary bg-opacity-10">
+                <div><strong>{{ evento.summary }}</strong></div>
+                <div>{{ evento.description }}</div>
+                <small class="text-muted">{{ evento.start.dateTime | date:'HH:mm' }} - {{ evento.end?.dateTime |
+                  date:'HH:mm' }}</small>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Alerta com dica -->
-      <div class="alert alert-info mt-3 small rounded-3 shadow-sm">
-        <i class="bi bi-lightbulb me-2 text-warning"></i>
-        Quanto mais detalhes você fornecer sobre seus objetivos, horários preferidos e necessidades específicas,
-        melhores serão os resultados gerados pela IA.
-      </div>
     </div>
-
-    <!-- COLUNA 100%: Dicas -->
-    <div class="col-12">
-      <div class="card p-4 shadow-sm border-0 rounded-4">
-        <h5 class="fw-bold mb-3">💡 Dicas para melhores resultados</h5>
-
-        <div class="mb-3">
-          <strong><i class="bi bi-calendar-week me-2 text-primary"></i> Seja específico com o período</strong><br>
-          <span class="text-muted small">Ex: 'Criar agenda para semana de 10 a 17 de dezembro focada em...'</span>
-        </div>
-
-        <div class="mb-3">
-          <strong><i class="bi bi-clock me-2 text-success"></i> Mencione suas preferências de horário</strong><br>
-          <span class="text-muted small">Ex: "Sou mais produtivo pela manhã"</span>
-        </div>
-
-        <div>
-          <strong><i class="bi bi-lightbulb-fill me-2 text-warning"></i> Inclua seus objetivos principais</strong><br>
-          <span class="text-muted small">Ex: "Quero estudar para concurso e ter tempo para academia"</span>
-        </div>
-
-        <button class="btn btn-light mt-3 w-100 border rounded-3">
-          <i class="bi bi-chevron-down me-2"></i>Mostrar opções avançadas
-        </button>
-      </div>
-    </div>
-
   </div>
 
   <div *ngIf="error" class="alert alert-danger mt-3">

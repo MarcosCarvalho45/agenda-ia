@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Agenda } from '../../models/agenda.model';
+import { IAgenda } from '../../models/agenda.model';
 import { AgendaService } from '../../services/agenda/agenda.service';
 
 @Component({
@@ -13,8 +13,8 @@ import { AgendaService } from '../../services/agenda/agenda.service';
 })
 export class DashboardComponent implements OnInit {
 
-  agendas: Agenda[] = [];
-  agendaGerada!: Agenda;
+  agendas: IAgenda[] = [];
+  agendaGerada!: IAgenda;
 
   constructor(private router: Router, private agendaService: AgendaService) { }
 

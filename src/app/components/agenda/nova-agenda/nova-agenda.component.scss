@@ -1,0 +1,11 @@
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .calendar-day {
+    background: #f8f9fa;
+  }
+  .calendar-event {
+    border-left: 4px solid #2575fc;
+  }

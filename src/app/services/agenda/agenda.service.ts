@@ -2,40 +2,37 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { catchError, Observable, retry, throwError } from 'rxjs';
-import { Agenda } from '../../models/agenda.model';
+import { IAgenda } from '../../models/agenda.model';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AgendaService {
 
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
-  createAgenda(prompt: string): Observable<{ agenda: Agenda }> {
-    return this.http.post<{ agenda: Agenda }>(
+  createAgenda(prompt: string): Observable<{ agenda: IAgenda }> {
+    return this.http.post<{ agenda: IAgenda }>(
       `${this.apiUrl}agenda/generate`,
       { prompt }
     ).pipe(
-      catchError(this.handleError<{ agenda: Agenda }>())
+      catchError(this.handleError<{ agenda: IAgenda }>)
     );
   }
 
-  getAgendas(): Observable<{ agendas: Agenda[]; message: string }> {
-    return this.http
-      .get<{ agendas: Agenda[]; message: string }>(`${this.apiUrl}agenda/`)
-      .pipe(
-        retry(2),
-        catchError(this.handleError<{ agendas: Agenda[]; message: string }>())
-      );
+  getAgendas(): Observable<{ agendas: IAgenda[]; message: string }> {
+    return this.http.get<{ agendas: IAgenda[]; message: string }>(
+      `${this.apiUrl}/agenda/`
+    ).pipe(
+      retry(2),
+      catchError(this.handleError<{ agendas: IAgenda[]; message: string }>)
+    );
   }
 
-  private handleError<T>() {
-    return (error: HttpErrorResponse): Observable<T> => {
-      console.error('Ocorreu um erro:', error);
-      return throwError(() => error);
-    };
+  private handleError<T>(error: HttpErrorResponse): Observable<T> {
+    console.error('Ocorreu um erro:', error);
+    return throwError(() => error);
   }
 }
