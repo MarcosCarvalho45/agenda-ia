@@ -27,8 +27,13 @@ export class SidebarComponent {
     this.router.navigate(['/subscription']);
   }
 
-    goToProfile() {
+  goToProfile() {
     this.router.navigate(['/user']);
+  }
+
+  logout() {
+    localStorage.clear(); // ou apenas remova os itens relevantes
+    this.router.navigate(['/login']); // ou a rota que você quiser
   }
 
 }
