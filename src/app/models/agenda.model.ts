@@ -18,7 +18,7 @@ export interface IEvento {
 }
 
 export interface IAgenda {
-  id?: string;          // id vindo do Mongo (_id), opcional no front
+  _id?: string;          // id vindo do Mongo (_id), opcional no front
   userId: string;       // string, porque no front o ObjectId vira string
   tenantId: string;
   nomeAgenda: string;

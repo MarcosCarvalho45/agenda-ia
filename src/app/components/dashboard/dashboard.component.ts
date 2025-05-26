@@ -14,23 +14,30 @@ import { AgendaService } from '../../services/agenda/agenda.service';
 export class DashboardComponent implements OnInit {
 
   agendas: IAgenda[] = [];
-  agendaGerada!: IAgenda;
+  totalAtividades: number = 0;
 
-  constructor(private router: Router, private agendaService: AgendaService) { }
+  constructor(
+    private router: Router,
+    private agendaService: AgendaService
+  ) {}
 
   ngOnInit(): void {
     this.carregarAgendas();
   }
 
-  criarNovaAgenda() {
+  criarNovaAgenda(): void {
     this.router.navigate(['/agenda/nova']);
   }
 
-  carregarAgendas() {
+  carregarAgendas(): void {
     this.agendaService.getAgendas().subscribe({
       next: (data) => {
-        console.log('Agendas recebidas:', data.agendas);
-        this.agendas = data.agendas; // Corrigido aqui
+        this.agendas = data.agendas;
+        console.log(this.agendas)
+        this.totalAtividades = this.agendas.reduce(
+          (acc, agenda) => acc + (agenda.eventos?.length || 0),
+          0
+        );
       },
       error: (err) => {
         console.error('Erro ao carregar agendas:', err);
@@ -38,5 +45,24 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  verAgenda(id: string): void {
+    this.router.navigate(['/agenda/viwer', id]);
+  }
 
+  excluirAgenda(id: string): void {
+    if (confirm('Tem certeza que deseja excluir esta agenda?')) {
+      this.agendaService.deleteAgenda(id).subscribe({
+        next: () => {
+          this.agendas = this.agendas.filter(agenda => agenda._id !== id);
+          this.totalAtividades = this.agendas.reduce(
+            (acc, agenda) => acc + (agenda.eventos?.length || 0),
+            0
+          );
+        },
+        error: (err) => {
+          console.error('Erro ao excluir agenda:', err);
+        }
+      });
+    }
+  }
 }

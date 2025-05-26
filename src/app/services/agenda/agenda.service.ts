@@ -24,10 +24,26 @@ export class AgendaService {
 
   getAgendas(): Observable<{ agendas: IAgenda[]; message: string }> {
     return this.http.get<{ agendas: IAgenda[]; message: string }>(
-      `${this.apiUrl}/agenda/`
+      `${this.apiUrl}agenda/`
     ).pipe(
       retry(2),
       catchError(this.handleError<{ agendas: IAgenda[]; message: string }>)
+    );
+  }
+
+  getAgendaById(_id: string): Observable<{ agenda: IAgenda }> {
+    return this.http.get<{ agenda: IAgenda }>(
+      `${this.apiUrl}agenda/${_id}`
+    ).pipe(
+      catchError(this.handleError<{ agenda: IAgenda }>)
+    );
+  }
+
+  deleteAgenda(_id: string): Observable<void> {
+    return this.http.delete<void>(
+      `${this.apiUrl}agenda/${_id}`
+    ).pipe(
+      catchError(this.handleError<void>)
     );
   }
 
