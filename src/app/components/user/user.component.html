@@ -13,8 +13,8 @@
               <i class="bi bi-person"></i>
             </div>
           </div>
-          <h5 class="fw-bold mb-1">{{ user?.name || 'Usuário' }}</h5>
-          <p class="text-muted small">{{ user?.email }}</p>
+          <h5 class="fw-bold mb-1">{{ user.name || 'Usuário' }}</h5>
+          <p class="text-muted small">{{ user.email }}</p>
 
           <hr>
 
@@ -26,13 +26,12 @@
             </div>
             <div class="d-flex justify-content-between">
               <span class="text-muted">Plano atual</span>
-              <span class="fw-bold">{{ user?.subscription || 'Gratuito' }}</span>
+              <span class="fw-bold">{{ user.subscription || 'Gratuito' }}</span>
             </div>
             <div class="d-flex justify-content-between mb-3">
               <span class="text-muted">Membro desde</span>
-              <span class="fw-bold">{{ user?.subscriptionStart | date: 'MMM yyyy' }}</span>
+              <span class="fw-bold">{{ user.subscriptionStart | date: 'MMM yyyy' }}</span>
             </div>
-
             <p class="mb-1"><strong>Integrações</strong></p>
             <div class="d-flex align-items-center">
               <i class="bi bi-calendar-check text-success me-2"></i>
@@ -51,6 +50,14 @@
           <h5 class="fw-bold mb-1">Informações pessoais</h5>
           <p class="text-muted">Atualize seus dados de contato e informações de perfil</p>
 
+          <!-- Mensagens -->
+          <div *ngIf="mensagemSucesso" class="alert alert-success" role="alert">
+            {{ mensagemSucesso }}
+          </div>
+          <div *ngIf="mensagemErro" class="alert alert-danger" role="alert">
+            {{ mensagemErro }}
+          </div>
+
           <form (ngSubmit)="salvarAlteracoes()" *ngIf="user">
             <div class="mb-3">
               <label class="form-label">Nome</label>
@@ -64,12 +71,18 @@
 
             <div class="mb-3">
               <label class="form-label">Telefone</label>
-              <input type="tel" class="form-control" [(ngModel)]="user.phone" name="phone" placeholder="(XX) XXXXX-XXXX">
+              <input type="tel" class="form-control" [(ngModel)]="user.phone" name="phone"
+                placeholder="(XX) XXXXX-XXXX">
               <small class="text-muted">Usado para notificações do WhatsApp</small>
             </div>
 
-            <div class="d-flex justify-content-end">
-              <button type="submit" class="btn btn-dark px-4">Salvar alterações</button>
+            <div class="d-flex justify-content-end align-items-center">
+              <div *ngIf="isLoading" class="spinner-border spinner-border-sm text-secondary me-2" role="status">
+                <span class="visually-hidden">Salvando...</span>
+              </div>
+              <button type="submit" class="btn text-white fw-bold" style="background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)" [disabled]="isLoading">
+                {{ isLoading ? 'Salvando...' : 'Salvar alterações' }}
+              </button>
             </div>
           </form>
 

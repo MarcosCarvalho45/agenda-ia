@@ -26,6 +26,7 @@ export class User implements IUser {
   subscriptionCurrentPeriodEnd?: string;
   stripeCustomerId?: string;
   stripeSubscriptionId?: string;
+  subscriptionStart: any;
 
   constructor(data: IUser) {
     this.name = data.name;

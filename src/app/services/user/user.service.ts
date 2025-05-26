@@ -25,6 +25,16 @@ export class UserService {
     );
   }
 
+  updateUserProfile(data: { name: string; email: string; phone: string }): Observable<User> {
+    const url = this.apiUrl.endsWith('/')
+      ? `${this.apiUrl}user/profile`
+      : `${this.apiUrl}/user/profile`;
+
+    return this.http.put<User>(url, data).pipe(
+      catchError(this.handleError<User>())
+    );
+  }
+
   private handleError<T>() {
     return (error: HttpErrorResponse): Observable<T> => {
       console.error('Ocorreu um erro:', error);
